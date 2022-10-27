@@ -1,4 +1,4 @@
-<#noparse>#!/bin/bash
+#!/bin/bash
 #Author Lilw @2012
 execDir=`pwd`
 
@@ -50,5 +50,3 @@ if [ -n "${pids}" ]; then
    kill -9 $pids
    sleep 1
 fi
-
-</#noparse>

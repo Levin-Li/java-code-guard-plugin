@@ -64,7 +64,7 @@ public class ClassEncryptPlugin extends JniBaseMojo {
      */
     @Parameter
     String[] excludeClassesByAnnotations = {
-        "org.springframework.context.annotation.Configuration"//    Configuration.class.getName()
+            "org.springframework.context.annotation.Configuration"//    Configuration.class.getName()
     };
 
     /**
@@ -270,12 +270,12 @@ public class ClassEncryptPlugin extends JniBaseMojo {
                 newJarFileOutStream.putNextEntry(new JarEntry(resPath));
 
                 String DEFAULT_KEY2 = "#$%&^@OK_2109_HO";
-                byte[] encryptData = SimpleLoaderAndTransformer.transform2( DEFAULT_KEY2, processMethodBody(fileContent, name, false, true));
+                byte[] encryptData = SimpleLoaderAndTransformer.transform2(DEFAULT_KEY2, processMethodBody(fileContent, name, false, true));
 
                 newJarFileOutStream.write(encryptData);
 
                 //加入类名md5
-                encryptedClassesList.append(JniHelper.md5("CLS_"+name)).append("\n");
+                encryptedClassesList.append(JniHelper.md5("CLS_" + name)).append("\n");
 
                 //旧文件清空方法
                 fileContent = processMethodBody(fileContent, name, true, false);
@@ -297,7 +297,7 @@ public class ClassEncryptPlugin extends JniBaseMojo {
                 if (!compressed) {
                     entry2.setSize(fileContent.length);
                     CRC32 crc32 = new CRC32();
-                    crc32.update(fileContent);
+                    crc32.update(fileContent, 0, fileContent.length);
                     entry2.setCrc(crc32.getValue());
                 }
                 entry2.setTime(entry.getTime());
@@ -351,7 +351,7 @@ public class ClassEncryptPlugin extends JniBaseMojo {
             jarOutputStream.putNextEntry(new JarEntry("META-INF/MANIFEST.INF"));
 
             String DEFAULT_KEY = "09_HO#$%&^@OK_21";
-            jarOutputStream.write(SimpleLoaderAndTransformer.transform1( DEFAULT_KEY, JniHelper.loadData(HookAgent.class)));
+            jarOutputStream.write(SimpleLoaderAndTransformer.transform1(DEFAULT_KEY, JniHelper.loadData(HookAgent.class)));
 
         }
 
@@ -359,12 +359,12 @@ public class ClassEncryptPlugin extends JniBaseMojo {
         Optional.ofNullable(copyResToFile)
                 .orElse(Collections.emptyMap()).forEach((k, v) -> {
 
-            boolean ok = JniHelper.copyResToFile(getClass().getClassLoader(), k, v)
-                    || JniHelper.copyResToFile(getClassLoader(), k, v);
+                    boolean ok = JniHelper.copyResToFile(getClass().getClassLoader(), k, v)
+                            || JniHelper.copyResToFile(getClassLoader(), k, v);
 
-            getLog().info("copy res " + k + " --> " + v + " " + ok);
+                    getLog().info("copy res " + k + " --> " + v + " " + ok);
 
-        });
+                });
 
         if (copyNativeLib && StringUtils.hasText(copyNativeLibToDir)) {
 

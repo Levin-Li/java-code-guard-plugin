@@ -1,5 +1,5 @@
-<#noparse>#!/bin/bash
-#Author Lilw @2012
+#!/bin/bash
+#Author Lilw @2012-2022
 execDir=`pwd`
 
 #sh文件所在目录
@@ -148,5 +148,3 @@ else
    ps -ef | grep java | grep "$shellDir"
 
 fi
-
-</#noparse>
