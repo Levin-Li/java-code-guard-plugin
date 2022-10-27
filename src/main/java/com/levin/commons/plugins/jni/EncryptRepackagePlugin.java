@@ -24,7 +24,6 @@ import java.util.zip.CRC32;
 
 import static org.springframework.asm.Opcodes.ACONST_NULL;
 
-
 /**
  * 加密jar/war文件的maven插件
  *
