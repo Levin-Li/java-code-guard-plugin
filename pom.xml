@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <revision>2.3.6</revision>
+        <revision>2.3.7</revision>
         <mavenVersion>3.6.1</mavenVersion>
 
         <jitpack.groupId>com.github.Levin-Li</jitpack.groupId>
@@ -234,10 +234,10 @@
                                     </includes>
                                     <replacements>
 
-                                        <!-- 替换包名 -->
+                                        <!-- 替换插件包名定义 ，正则表达式 尖挂号 &lt; &gt; -->
                                         <replacement>
-                                            <token>${project.groupId}</token>
-                                            <value>${jitpack.groupId}</value>
+                                            <token>&gt;${project.groupId}&lt;</token>
+                                            <value>&gt;${jitpack.groupId}&lt;</value>
                                         </replacement>
 
                                     </replacements>
@@ -261,10 +261,6 @@
                                     </file>
 
                                     <replacements>
-                                        <replacement>
-                                            <token>${project.groupId}</token>
-                                            <value>${jitpack.groupId}</value>
-                                        </replacement>
                                     </replacements>
 
                                     <outputFile>
