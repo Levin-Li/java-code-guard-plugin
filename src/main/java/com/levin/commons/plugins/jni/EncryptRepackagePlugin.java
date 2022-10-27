@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.*;
 import java.util.zip.CRC32;
 
+import static com.levin.commons.plugins.jni.SimpleLoaderAndTransformer.*;
 import static org.springframework.asm.Opcodes.ACONST_NULL;
 
 /**
@@ -331,13 +332,40 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 //        变更名字
         rename(encryptOutFile, buildFile);
 
+        if (StringUtils.hasText(mainClass) || StringUtils.hasText(startClass)) {
+
+            copyFiles(build);
+
+        }
+
+        getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
+
+    }
+
+    private void copyFiles(Build build) {
+
         getLog().info("生成启动和停止的脚本文件...");
 
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "startup.sh").getAbsolutePath(), false);
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shutdown.sh").getAbsolutePath(), false);
 
-        getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
 
+        String fileName = LIB_PREFIX + LIB_NAME;
+
+        String osName = System.getProperty("os.name", "").toLowerCase().replace(" ", "");
+
+        if (osName.contains("linux".toLowerCase())) {
+            fileName = "linux/" + fileName + ".so";
+        } else if (osName.contains("windows".toLowerCase())) {
+            fileName = "windows/" + fileName + ".dll";
+        } else if (osName.contains("MacOSX".toLowerCase())) {
+            fileName = "macosx/" + fileName + ".dylib";
+        } else {
+            fileName = osName + "/" + fileName + ".so";
+        }
+
+        JniHelper.forceCopyResToFile(getLocalClassLoader(), LIB_PREFIX + "/" + LIB_NAME + "/" + fileName,
+                new File(build.getDirectory(), "third-libs/" + new File(fileName).getName()).getAbsolutePath());
     }
 
     @SneakyThrows

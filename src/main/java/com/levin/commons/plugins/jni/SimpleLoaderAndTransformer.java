@@ -25,8 +25,8 @@ public class SimpleLoaderAndTransformer extends ClassLoader implements ClassFile
         loadLib();
     }
 
-    private static final String LIB_NAME = "HookAgent";
-    private static final String LIB_PREFIX = "lib";
+    public static final String LIB_NAME = "HookAgent";
+    public static final String LIB_PREFIX = "lib";
 
     @SneakyThrows
     private static void loadLib() {
