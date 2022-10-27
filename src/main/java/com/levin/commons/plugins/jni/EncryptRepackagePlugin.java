@@ -333,8 +333,8 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
         getLog().info("生成启动和停止的脚本文件...");
 
-        JniHelper.copyResToFile(null,"shell/startup.sh",build.getDirectory()+"/startup.sh");
-        JniHelper.copyResToFile(null,"shell/shutdown.sh",build.getDirectory()+"/shutdown.sh");
+        JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "shell/startup.sh").getAbsolutePath());
+        JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shell/shutdown.sh").getAbsolutePath());
 
         getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
 
@@ -362,7 +362,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
         Optional.ofNullable(copyResToFile)
                 .orElse(Collections.emptyMap()).forEach((k, v) -> {
 
-                    boolean ok = JniHelper.copyResToFile(getClass().getClassLoader(), k, v)
+                    boolean ok = JniHelper.copyResToFile(getLocalClassLoader(), k, v)
                             || JniHelper.copyResToFile(getClassLoader(), k, v);
 
                     getLog().info("copy res " + k + " --> " + v + " " + ok);
@@ -380,7 +380,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
             for (String nativeLib : nativeLibs) {
 
 
-                byte[] data = JniHelper.loadResource(getClass().getClassLoader(), nativeLib);
+                byte[] data = JniHelper.loadResource(getLocalClassLoader(), nativeLib);
 
                 if (data != null) {
                     jarOutputStream.putNextEntry(new JarEntry(nativeLib));
@@ -389,7 +389,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
                 String outFile = copyNativeLibToDir + "/" + nativeLib.substring(nativeLib.lastIndexOf("/"));
 
-                boolean ok = JniHelper.copyResToFile(getClass().getClassLoader(), nativeLib, outFile);
+                boolean ok = JniHelper.copyResToFile(getLocalClassLoader(), nativeLib, outFile);
 
                 getLog().info("copy native lib " + nativeLib + " --> " + outFile + " " + ok);
             }
@@ -468,7 +468,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
             outputStream.putNextEntry(new JarEntry(path + fn));
 
-            byte[] data = JniHelper.loadData(clazz.getClassLoader(), clazz);
+            byte[] data = JniHelper.loadData(getLocalClassLoader(), clazz);
 
             if (data == null || data.length == 0) {
                 throw new IllegalAccessException(clazz + " res " + fn + " no content.");

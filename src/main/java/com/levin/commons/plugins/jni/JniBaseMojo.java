@@ -184,8 +184,23 @@ public abstract class JniBaseMojo extends AbstractMojo {
                 : classLoader.loadClass(className);
     }
 
+    /**
+     * 获取目标模块类加载器
+     *
+     * @param filePaths
+     * @return
+     */
     public URLClassLoader getClassLoader(String... filePaths) {
         return getClassLoader(Arrays.asList(filePaths));
+    }
+
+    /**
+     * 获取插件本身的类加载器
+     *
+     * @return
+     */
+    public ClassLoader getLocalClassLoader() {
+        return getClass().getClassLoader();
     }
 
     /**
