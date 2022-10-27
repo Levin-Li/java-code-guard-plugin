@@ -1,6 +1,5 @@
 package com.levin.commons.plugins.jni;
 
-import com.levin.commons.plugins.JniBaseMojo;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -269,7 +268,9 @@ public class ClassEncryptPlugin extends JniBaseMojo {
 
                 newJarFileOutStream.putNextEntry(new JarEntry(resPath));
 
+                //密码
                 String DEFAULT_KEY2 = "#$%&^@OK_2109_HO";
+
                 byte[] encryptData = SimpleLoaderAndTransformer.transform2(DEFAULT_KEY2, processMethodBody(fileContent, name, false, true));
 
                 newJarFileOutStream.write(encryptData);
@@ -332,6 +333,10 @@ public class ClassEncryptPlugin extends JniBaseMojo {
 //        变更名字
         rename(encryptOutFile, buildFile);
 
+        getLog().info("生成启动和停止的脚本文件...");
+
+        JniHelper.copyResToFile(null,"shell/startup.sh",build.getDirectory()+"/startup.sh");
+        JniHelper.copyResToFile(null,"shell/shutdown.sh",build.getDirectory()+"/shutdown.sh");
 
         getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
 
