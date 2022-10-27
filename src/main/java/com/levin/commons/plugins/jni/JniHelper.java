@@ -55,7 +55,7 @@ public abstract class JniHelper {
      * @param outFile
      * @return
      */
-    public static boolean copyResToFile(ClassLoader loader, String resName, String outFile) {
+    public static boolean forceCopyResToFile(ClassLoader loader, String resName, String outFile) {
         return copyResToFile(loader, resName, outFile, true);
     }
 

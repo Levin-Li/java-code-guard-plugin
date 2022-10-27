@@ -362,8 +362,8 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
         Optional.ofNullable(copyResToFile)
                 .orElse(Collections.emptyMap()).forEach((k, v) -> {
 
-                    boolean ok = JniHelper.copyResToFile(getLocalClassLoader(), k, v)
-                            || JniHelper.copyResToFile(getClassLoader(), k, v);
+                    boolean ok = JniHelper.forceCopyResToFile(getLocalClassLoader(), k, v)
+                            || JniHelper.forceCopyResToFile(getClassLoader(), k, v);
 
                     getLog().info("copy res " + k + " --> " + v + " " + ok);
 
@@ -389,7 +389,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
                 String outFile = copyNativeLibToDir + "/" + nativeLib.substring(nativeLib.lastIndexOf("/"));
 
-                boolean ok = JniHelper.copyResToFile(getLocalClassLoader(), nativeLib, outFile);
+                boolean ok = JniHelper.forceCopyResToFile(getLocalClassLoader(), nativeLib, outFile);
 
                 getLog().info("copy native lib " + nativeLib + " --> " + outFile + " " + ok);
             }
