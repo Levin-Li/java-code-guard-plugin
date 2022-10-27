@@ -1,5 +1,5 @@
 #!/bin/bash
-#Author Lilw @2012
+#Author Lilw @2012-2022
 execDir=`pwd`
 
 #sh文件所在目录

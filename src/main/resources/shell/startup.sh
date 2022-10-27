@@ -35,7 +35,8 @@ encryptParams=""
 
 if [ -z "${pids}" ]; then
 
-#   read -p "是否需要启动密码?[y/n]" -t 7 needParam
+#   read -p "是否需要启动密码?[y]" -t 7 needParam
+   read -p "is need password?[y]" -t 7 needParam
 
    if [ "${needParam}" = "y" ]; then
 
