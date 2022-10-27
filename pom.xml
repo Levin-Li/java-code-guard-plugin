@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <revision>2.3.3</revision>
+        <revision>2.3.5</revision>
         <mavenVersion>3.6.1</mavenVersion>
 
         <levin.service-support.version>1.2.25-SNAPSHOT</levin.service-support.version>
