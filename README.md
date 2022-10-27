@@ -30,7 +30,15 @@
             <plugin>
                 <groupId>com.github.Levin-Li</groupId>
                 <artifactId>java-code-guard-plugin</artifactId>
-                <version>2.3.7</version>
+                <version>2.3.8</version>
+                <executions>
+                    <execution>
+                        <id>encrypt-repackage</id>
+                        <goals>
+                            <goal>encrypt-repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
  
         </plugins>

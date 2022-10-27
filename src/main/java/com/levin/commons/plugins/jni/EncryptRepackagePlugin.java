@@ -30,9 +30,8 @@ import static org.springframework.asm.Opcodes.ACONST_NULL;
  *
  * @author roseboy
  */
-@Mojo(name = "encrypt-class", defaultPhase = LifecyclePhase.PACKAGE)
-public class ClassEncryptPlugin extends JniBaseMojo {
-
+@Mojo(name = "encrypt-repackage", defaultPhase = LifecyclePhase.PACKAGE)
+public class EncryptRepackagePlugin extends JniBaseMojo {
 
     /**
      * 加密密码文件
