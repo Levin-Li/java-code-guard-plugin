@@ -1,0 +1,24 @@
+# Created by .ignore support plugin
+
+**/.idea
+.ssh
+.lock
+*.lock
+.awcache
+
+**/node_modules
+
+**/*-support-processor.properties
+
+*.iml
+**/*.iml
+**/.DS_Store
+
+**/target
+
+**/log
+**/logs
+
+overlays
+out
+**/.flattened-pom.xml
