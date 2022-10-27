@@ -56,8 +56,22 @@ public abstract class JniHelper {
      * @return
      */
     public static boolean copyResToFile(ClassLoader loader, String resName, String outFile) {
+        return copyResToFile(loader, resName, outFile, true);
+    }
+
+    /**
+     * @param loader
+     * @param resName
+     * @param outFile
+     * @return
+     */
+    public static boolean copyResToFile(ClassLoader loader, String resName, String outFile, boolean force) {
 
         File file = new File(outFile);
+
+        if (file.exists() && !force) {
+            return false;
+        }
 
         boolean ok = false;
 

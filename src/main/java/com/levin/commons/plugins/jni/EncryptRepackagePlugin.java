@@ -333,8 +333,8 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
         getLog().info("生成启动和停止的脚本文件...");
 
-        JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "shell/startup.sh").getAbsolutePath());
-        JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shell/shutdown.sh").getAbsolutePath());
+        JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "startup.sh").getAbsolutePath(), false);
+        JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shutdown.sh").getAbsolutePath(), false);
 
         getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
 
