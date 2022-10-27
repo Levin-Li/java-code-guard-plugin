@@ -14,10 +14,9 @@
         <mavenVersion>3.6.1</mavenVersion>
 
         <jitpack.groupId>com.github.Levin-Li</jitpack.groupId>
+        <levin.service-support.groupId>${jitpack.groupId}</levin.service-support.groupId>
 
         <levin.service-support.version>1.2.25-SNAPSHOT</levin.service-support.version>
-
-        <levin.service-support.groupId>${jitpack.groupId}</levin.service-support.groupId>
 
         <!-- <levin.service-support.groupId>com.levin.commons</levin.service-support.groupId> -->
 
