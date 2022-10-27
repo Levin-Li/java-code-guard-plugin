@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <revision>2.3.5</revision>
+        <revision>2.3.6</revision>
         <mavenVersion>3.6.1</mavenVersion>
 
         <jitpack.groupId>com.github.Levin-Li</jitpack.groupId>
