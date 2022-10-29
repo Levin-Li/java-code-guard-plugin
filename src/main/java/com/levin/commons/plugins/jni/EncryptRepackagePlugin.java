@@ -120,7 +120,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
         }
 
         if (!StringUtils.hasText(pwd)) {
-            logger.warn("加密打包密码没有设置，您可以在" + this.pwdFilePath + "配置密码");
+            getLog().warn("加密打包密码没有设置，您可以在" + this.pwdFilePath + "配置密码");
             return;
         }
 
@@ -167,7 +167,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 //        Build-Jdk-Spec: 1.8
 //        Created-By: Maven Jar Plugin 3.2.0
 
-        Attributes mainAttributes = manifest.getMainAttributes();
+        final Attributes mainAttributes = manifest.getMainAttributes();
 
         JarEntry jarClassPath = buildFileJar.getJarEntry((String) mainAttributes.getOrDefault("Spring-Boot-Classes", "BOOT-INF/classes"));
 
@@ -179,9 +179,8 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
         String path = (jarClassPath != null && jarClassPath.isDirectory()) ? jarClassPath.getName() : "";
 
-
-        String mainClass = mainAttributes.getValue("Main-Class");
-        String startClass = mainAttributes.getValue("Start-Class");
+        final String mainClass = mainAttributes.getValue("Main-Class");
+        final String startClass = mainAttributes.getValue("Start-Class");
 
         //替换启动类
         if (StringUtils.hasText(startClass)) {
@@ -332,10 +331,9 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 //        变更名字
         rename(encryptOutFile, buildFile);
 
-        if (StringUtils.hasText(mainClass) || StringUtils.hasText(startClass)) {
-
+        if (StringUtils.hasText(mainClass)) {
+            getLog().info("*** MainClass: " + mainClass + ", StartClass: " + startClass);
             copyFiles(build);
-
         }
 
         getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
@@ -348,24 +346,23 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "startup.sh").getAbsolutePath(), false);
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shutdown.sh").getAbsolutePath(), false);
+//
+//        forceCopyResToFile(LIB_PREFIX + "/" + LIB_NAME + "/linux/" + LIB_PREFIX + LIB_NAME + ".so", "third-libs");
+//        forceCopyResToFile(LIB_PREFIX + "/" + LIB_NAME + "/windows/" + LIB_PREFIX + LIB_NAME + ".dll", "third-libs");
+//        forceCopyResToFile(LIB_PREFIX + "/" + LIB_NAME + "/macosx/" + LIB_PREFIX + LIB_NAME + ".dylib", "third-libs");
 
+    }
 
-        String fileName = LIB_PREFIX + LIB_NAME;
+    private boolean forceCopyResToFile(String resPath, String path) {
 
-        String osName = System.getProperty("os.name", "").toLowerCase().replace(" ", "");
-
-        if (osName.contains("linux".toLowerCase())) {
-            fileName = "linux/" + fileName + ".so";
-        } else if (osName.contains("windows".toLowerCase())) {
-            fileName = "windows/" + fileName + ".dll";
-        } else if (osName.contains("MacOSX".toLowerCase())) {
-            fileName = "macosx/" + fileName + ".dylib";
+        if (StringUtils.hasText(path)) {
+            path = path + "/" + new File(resPath).getName();
         } else {
-            fileName = osName + "/" + fileName + ".so";
+            path = resPath;
         }
 
-        JniHelper.forceCopyResToFile(getLocalClassLoader(), LIB_PREFIX + "/" + LIB_NAME + "/" + fileName,
-                new File(build.getDirectory(), "third-libs/" + new File(fileName).getName()).getAbsolutePath());
+        return JniHelper.forceCopyResToFile(getLocalClassLoader(), resPath,
+                new File(mavenProject.getBuild().getDirectory(), path).getAbsolutePath());
     }
 
     @SneakyThrows
@@ -406,7 +403,6 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
             };
 
             for (String nativeLib : nativeLibs) {
-
 
                 byte[] data = JniHelper.loadResource(getLocalClassLoader(), nativeLib);
 

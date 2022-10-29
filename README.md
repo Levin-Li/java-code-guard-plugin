@@ -6,8 +6,8 @@
    Java代码保护插件(Maven)
  
 ### 1 集成
-   
-   在 pom.xml 文件加入一下配置
+
+#### 1.1 在 pom.xml 文件加入以下配置
 
     <repositories> 
         <repository>
@@ -31,14 +31,6 @@
                 <groupId>com.github.Levin-Li</groupId>
                 <artifactId>java-code-guard-plugin</artifactId>
                 <version>2.3.10</version>
-                <executions>
-                    <execution>
-                        <id>encrypt-repackage</id>
-                        <goals>
-                            <goal>encrypt-repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
  
         </plugins>
@@ -46,7 +38,8 @@
     
     </project>
 
- 
+#### 1.2 应用打包以后，手动执行插件的加密打包任务
+
 ### 2 联系作者
 
  邮箱：99668980@qq.com   

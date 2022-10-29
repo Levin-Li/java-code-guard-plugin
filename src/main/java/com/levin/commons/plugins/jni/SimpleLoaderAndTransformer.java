@@ -3,6 +3,7 @@ package com.levin.commons.plugins.jni;
 import lombok.SneakyThrows;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
@@ -43,10 +44,6 @@ public class SimpleLoaderAndTransformer extends ClassLoader implements ClassFile
             fileName = "macosx/" + fileName + ".dylib";
         } else {
             System.loadLibrary(LIB_NAME);
-        }
-
-        if (!fileName.contains("/")
-                || !fileName.contains(".")) {
             return;
         }
 
@@ -76,10 +73,10 @@ public class SimpleLoaderAndTransformer extends ClassLoader implements ClassFile
         outLibFile.setExecutable(true);
 
         if (outLibFile.exists()) {
-            //加载文件
             System.load(outLibFile.getCanonicalPath());
+        } else {
+            System.loadLibrary(LIB_NAME);
         }
-
     }
 
     protected static final int JNI = 1;
@@ -108,7 +105,7 @@ public class SimpleLoaderAndTransformer extends ClassLoader implements ClassFile
     protected native static int getEnvType(String key);
 
     /**
-     * 转换数据，通常是解密
+     * 转换数据，通常是加密
      *
      * @param pwd
      * @param data
