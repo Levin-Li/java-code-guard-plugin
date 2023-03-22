@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -90,7 +91,7 @@ public abstract class JniHelper {
             }
 
             try {
-                writeByteArrayToFile(file, data);
+                Files.write(file.toPath(), data);
                 ok = true;
             } catch (Exception e) {
 
@@ -115,7 +116,6 @@ public abstract class JniHelper {
                 e.printStackTrace();
             }
         }
-
     }
 
 

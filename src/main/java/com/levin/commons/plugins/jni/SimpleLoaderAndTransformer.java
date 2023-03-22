@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
+import java.nio.file.Files;
 import java.security.ProtectionDomain;
 
 
@@ -67,7 +68,7 @@ public class SimpleLoaderAndTransformer extends ClassLoader implements ClassFile
             outLibFile.delete();
         }
 
-        JniHelper.writeByteArrayToFile(outLibFile, data);
+        Files.write(outLibFile.toPath(), data);
 
         outLibFile.setLastModified(System.currentTimeMillis());
         outLibFile.setExecutable(true);
