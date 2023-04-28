@@ -302,7 +302,9 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
                     crc32.update(fileContent, 0, fileContent.length);
                     entry2.setCrc(crc32.getValue());
                 }
+
                 entry2.setTime(entry.getTime());
+
             } else if (isMainClass || (isClassFile && isExcludeByAnnotation(name))) {
                 //如果主类，或是 被排除的特定类
 //                entry2 = new JarEntry(entry.getName());
@@ -339,14 +341,13 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
             copyFiles(build);
         }
 
-        getLog().info("" + buildFile + "  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
+        getLog().info("<<<" + buildFile + ">>>  sha256 --> " + HookAgent.toHexStr(HookAgent.getFileSHA256Hashcode(buildFile)));
 
     }
 
     private void copyFiles(Build build) {
 
         getLog().info("生成启动和停止的脚本文件...");
-
 
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "startup.sh").getAbsolutePath(), false);
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shutdown.sh").getAbsolutePath(), false);
@@ -373,6 +374,8 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
     private void copyRes(boolean copyNativeLib, String path, JarOutputStream jarOutputStream) {
 
         if (copyNativeLib) {
+
+            //如果是有启动类的jar包，拷贝加密资源
 
             writeClassToJar(jarOutputStream, path, JniHelper.class, JavaAgent.class, SimpleLoaderAndTransformer.class);
             //放入 hook 类
@@ -425,8 +428,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
     }
 
     private boolean isAnnotation(String name) {
-        Class aClass = loadClass(name);
-        return aClass.isAnnotation();
+        return loadClass(name).isAnnotation();
     }
 
     @SneakyThrows

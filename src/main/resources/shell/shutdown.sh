@@ -1,5 +1,5 @@
 #!/bin/bash
-#Author Lilw @2012-2022
+
 execDir=`pwd`
 
 #sh文件所在目录
@@ -7,18 +7,18 @@ shellDir=`dirname $0`
 
 cd $shellDir
 
-shellDir=`pwd`
+shellDir="\"`pwd`\""
 
 #获取进程ID
 pids=`ps -ef | grep java | grep "$shellDir" | awk '{print $2}'`
 
 if [ -z "${pids}" ]; then
 
-   echo "[$shellDir/$0] program already stop, nothing to do."
+   echo "[`pwd`/$0] program already stop, nothing to do."
 
 else
 #尝试停止进程
-   ps -ef | grep java | grep `pwd`
+   ps -ef | grep java | grep "$shellDir"
 
    tempPid=$pids
 

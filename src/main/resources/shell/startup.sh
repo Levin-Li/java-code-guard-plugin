@@ -7,7 +7,7 @@ shellDir=`dirname $0`
 
 cd $shellDir
 
-shellDir=`pwd`
+shellDir="\"`pwd`\""
 
 appJars=`ls *.jar`
 isFound=`echo $?`
