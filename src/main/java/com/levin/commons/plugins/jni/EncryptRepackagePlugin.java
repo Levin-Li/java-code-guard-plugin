@@ -10,7 +10,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.springframework.asm.*;
 import org.springframework.cglib.core.Constants;
-//import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.StringUtils;
 
@@ -22,7 +21,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.*;
 import java.util.zip.CRC32;
 
-import static com.levin.commons.plugins.jni.SimpleLoaderAndTransformer.*;
 import static org.springframework.asm.Opcodes.ACONST_NULL;
 
 /**
@@ -213,7 +211,12 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
 
         getLog().info("***  includeClasses: " + Arrays.asList(includeClasses)
                 + " , excludeClasses: " + Arrays.asList(excludeClasses)
-                + " , excludeClassesByAnnotations: " + Arrays.asList(excludeClassesByAnnotations));
+                + " , excludeClassesByAnnotations: " + Arrays.asList(excludeClassesByAnnotations)
+                + " , mainClass: " + mainClass
+                + " , startClass: " + startClass
+                + " , mainAttributes: " + mainAttributes
+
+        );
 
         byte[] emptyArray = new byte[0];
 
@@ -343,6 +346,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
     private void copyFiles(Build build) {
 
         getLog().info("生成启动和停止的脚本文件...");
+
 
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/startup.sh", new File(build.getDirectory(), "startup.sh").getAbsolutePath(), false);
         JniHelper.copyResToFile(getLocalClassLoader(), "shell/shutdown.sh", new File(build.getDirectory(), "shutdown.sh").getAbsolutePath(), false);
