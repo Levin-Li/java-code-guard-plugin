@@ -142,7 +142,7 @@ public class EncryptRepackagePlugin extends JniBaseMojo {
         Manifest manifest = buildFileJar.getManifest();
 
         if (buildFileJar.getJarEntry(HookAgent.MF_ENCRYPT_RES_LIST) != null) {
-            logger.error("构件文件" + buildFile + "已经加密");
+            logger.info("构件文件" + buildFile + "已经加密");
             buildFileJar.close();
             return;
         }
