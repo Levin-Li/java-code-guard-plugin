@@ -1,5 +1,5 @@
 #!/bin/bash
-#Author Lilw @2012-2022
+
 execDir=`pwd`
 
 #sh文件所在目录
@@ -110,13 +110,13 @@ if [ -z "${pids}" ]; then
 
    #测试本应用的第3方库，是否存在
 
-   START_CMD="${JAVA_CMD} -server -Dwork.dir=${shellDir} ${encryptParams} -Dloader.path=config,resources,biz-libs,common-libs${globalAppCommonLibs},third-libs${globalAppThirdLibs} -jar ${appJars}"
+   START_CMD="${JAVA_CMD} -server -Dwork.dir=${shellDir} ${encryptParams} -Dloader.path=config,resources,biz-libs,app-libs,common-libs${globalAppCommonLibs},third-libs${globalAppThirdLibs} -jar ${appJars}"
 
    echo "Startup cmd line：${START_CMD}"
 
    nohup ${START_CMD}  2>&1 &
 
-   sleep 5
+   sleep 6
 
    #覆盖临时文件
    echo "#INVALID_PWD:#param:$$" > ${tempFile}
